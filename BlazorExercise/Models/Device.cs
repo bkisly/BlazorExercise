@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using BlazorExercise.Utils;
 
 namespace BlazorExercise.Models
 {
-    public class Device
+    public class Device : IMappable<Device>
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -14,5 +15,13 @@ namespace BlazorExercise.Models
 
         public DeviceCategory Category { get; set; } = null!;
 
+        public void MapTo(Device entity)
+        {
+            entity.Id = Id;
+            entity.Name = Name;
+            entity.Description = Description;
+            entity.Price = Price;
+            entity.Category = Category;
+        }
     }
 }
