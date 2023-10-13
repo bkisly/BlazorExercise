@@ -6,7 +6,7 @@ namespace BlazorExercise.Repositories
     {
         public IQueryable<Device> Devices { get; }
 
-        public void CreateDevice(Device device);
+        public Device CreateDevice(Device device);
         public void UpdateDevice(int deviceId, Device device);
         public void DeleteDevice(int deviceId);
     }

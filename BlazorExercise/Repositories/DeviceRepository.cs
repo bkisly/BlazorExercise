@@ -14,10 +14,11 @@ namespace BlazorExercise.Repositories
             _context = context;
         }
 
-        public void CreateDevice(Device device)
+        public Device CreateDevice(Device device)
         {
-            _context.Devices.Add(device);
+            var createdDevice = _context.Devices.Add(device);
             _context.SaveChanges();
+            return createdDevice.Entity;
         }
 
         public void UpdateDevice(int deviceId, Device device)

@@ -17,7 +17,6 @@ namespace BlazorExercise.Models
 
         public void MapTo(Device entity)
         {
-            entity.Id = Id;
             entity.Name = Name;
             entity.Description = Description;
             entity.Price = Price;
