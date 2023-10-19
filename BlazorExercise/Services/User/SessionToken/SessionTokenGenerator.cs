@@ -8,13 +8,6 @@ namespace BlazorExercise.Services.User.SessionToken
 {
     public class SessionTokenGenerator : ISessionTokenGenerator
     {
-        private readonly IConfiguration _configuration;
-
-        public SessionTokenGenerator(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public string GenerateToken(IEnumerable<Claim> claims, TokenDescriptorConfigurationValues configurationValues)
         {
             var signingKey =
