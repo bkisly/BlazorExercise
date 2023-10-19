@@ -39,6 +39,7 @@ namespace BlazorExercise.Services.User
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, credentials.Name),
+                new Claim("UserId", user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -47,14 +48,14 @@ namespace BlazorExercise.Services.User
 
         public void SignOut(object sessionToken)
         {
-            throw new NotImplementedException();
+            
         }
 
         private async Task<IdentityUser> ValidateUser(UserCredentialsDto userCredentials)
         {
             var user = await _userManager.FindByNameAsync(userCredentials.Name);
 
-            if (user == null || await _userManager.CheckPasswordAsync(user, userCredentials.Password))
+            if (user == null || !await _userManager.CheckPasswordAsync(user, userCredentials.Password))
             {
                 throw new InvalidOperationException("Invalid username or password.");
             }
