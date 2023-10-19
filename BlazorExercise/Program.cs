@@ -54,10 +54,18 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 app.MapDefaultControllerRoute();
-app.MapGet("/", () => "Hello!");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Authorization = $"Bearer {context.Request.Cookies["JWT"]}";
+    await next(context);
+});
+
+app.MapGet("/", () => "Hello!");
+app.MapGet("/secret", () => "This is a secret page").RequireAuthorization();
 
 DataFactory.PopulateDeviceCategories(app);
 

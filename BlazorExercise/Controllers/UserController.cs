@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using BlazorExercise.Models.Dto;
 using BlazorExercise.Services.User;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,7 +38,10 @@ namespace BlazorExercise.Controllers
         {
             try
             {
-                return CreatedAtAction(nameof(Login), await _userService.SignIn(userCredentialsDto));
+                var token = await _userService.SignIn(userCredentialsDto);
+                Response.Cookies.Append("JWT", token, new CookieOptions { Expires = DateTime.Now.AddHours(2) });
+                Response.Headers.Authorization = $"Bearer {token}";
+                return CreatedAtAction(nameof(Login), token);
             }
             catch (InvalidOperationException ex)
             {
@@ -45,11 +49,11 @@ namespace BlazorExercise.Controllers
             }
         }
 
-        [HttpDelete, Authorize]
+        [HttpGet, Authorize]
         public IActionResult Logout()
         {
-            Console.WriteLine($"called by user with name: {User.Identity?.Name}");
-            throw new NotImplementedException();
+            Response.Cookies.Delete("JWT");
+            return NoContent();
         }
     }
 }
