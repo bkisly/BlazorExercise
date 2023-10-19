@@ -39,8 +39,7 @@ namespace BlazorExercise.Controllers
             try
             {
                 var token = await _userService.SignIn(userCredentialsDto);
-                Response.Cookies.Append("JWT", token, new CookieOptions { Expires = DateTime.Now.AddHours(2) });
-                Response.Headers.Authorization = $"Bearer {token}";
+                Response.Cookies.Append("JWT", $"Bearer {token}", new CookieOptions { Expires = DateTime.Now.AddHours(2) });
                 return CreatedAtAction(nameof(Login), token);
             }
             catch (InvalidOperationException ex)
@@ -49,7 +48,7 @@ namespace BlazorExercise.Controllers
             }
         }
 
-        [HttpGet, Authorize]
+        [HttpDelete("logout"), Authorize]
         public IActionResult Logout()
         {
             Response.Cookies.Delete("JWT");

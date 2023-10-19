@@ -55,14 +55,14 @@ var app = builder.Build();
 
 app.MapDefaultControllerRoute();
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.Use(async (context, next) =>
 {
-    context.Response.Headers.Authorization = $"Bearer {context.Request.Cookies["JWT"]}";
+    context.Request.Headers.Authorization = context.Request.Cookies["JWT"];
     await next(context);
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGet("/", () => "Hello!");
 app.MapGet("/secret", () => "This is a secret page").RequireAuthorization();

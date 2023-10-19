@@ -1,6 +1,7 @@
 ﻿using BlazorExercise.Models;
 using BlazorExercise.Repositories;
 using BlazorExercise.Services.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
